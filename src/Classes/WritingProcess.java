@@ -20,4 +20,29 @@ public class WritingProcess extends Process{
 //        file.write("O resultado da conta 2 * 2 é  resultado")
 
     }
+
+
+    public Double getFirstOperator() {
+        return firstOperator;
+    }
+
+    public void setFirstOperator(Double firstOperator) {
+        this.firstOperator = firstOperator;
+    }
+
+    public Double getSecondOperator() {
+        return secondOperator;
+    }
+
+    public void setSecondOperator(Double secondOperator) {
+        this.secondOperator = secondOperator;
+    }
+
+    public String getOperatorSignal() {
+        return operatorSignal;
+    }
+
+    public void setOperatorSignal(String operatorSignal) {
+        this.operatorSignal = operatorSignal;
+    }
 }
