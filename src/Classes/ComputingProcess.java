@@ -7,14 +7,7 @@ public class ComputingProcess extends Process{
     private Double secondOperator;
     private String operatorSignal;
 
-    public ComputingProcess(Integer pid, Double firstOperator, Double secondOperator,String operatorSignal) {
-        super(pid);
-        this.firstOperator = firstOperator;
-        this.secondOperator = secondOperator;
-        this.operatorSignal = operatorSignal;
-
-
-    }
+    public ComputingProcess(Integer pid){super(pid);}
 
     @Override
     public void execute(){
