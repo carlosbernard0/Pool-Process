@@ -9,16 +9,6 @@ public class ComputingProcess extends Process{
 
     public ComputingProcess(Integer pid){super(pid);}
 
-    @Override
-    public void execute(){
-        double result = 0.0;
-        if (Objects.equals(operatorSignal, "+")) {result = secondOperator+firstOperator;}
-        if (Objects.equals(operatorSignal, "-")) {result = firstOperator-secondOperator;}
-        if (Objects.equals(operatorSignal, "*")) {result = firstOperator*secondOperator;}
-        if (Objects.equals(operatorSignal, "/")) {result = firstOperator/secondOperator;}
-
-    }
-
 
     public Double getFirstOperator() {
         return firstOperator;
@@ -42,5 +32,29 @@ public class ComputingProcess extends Process{
 
     public void setOperatorSignal(String operatorSignal) {
         this.operatorSignal = operatorSignal;
+    }
+
+    @Override
+    public void execute(){
+        double result = 0.0;
+        if (Objects.equals(operatorSignal, "+")) {result = secondOperator+firstOperator;}
+        if (Objects.equals(operatorSignal, "-")) {result = firstOperator-secondOperator;}
+        if (Objects.equals(operatorSignal, "*")) {result = firstOperator*secondOperator;}
+        if (Objects.equals(operatorSignal, "/")) {result = firstOperator/secondOperator;}
+        System.out.println("\nO resultado da operação "+firstOperator+" "+operatorSignal+" "+secondOperator+" é: "+ result);
+    }
+
+    public boolean verificarOperador(String sinalDoOperador){
+        if(sinalDoOperador.equals("+") || sinalDoOperador.equals("-") ||
+                sinalDoOperador.equals("*") || sinalDoOperador.equals("/"))
+        {
+            this.setOperatorSignal(sinalDoOperador);
+            return true;
+        }else
+        {
+            System.out.println("\nOperador inválido!");
+            return false;
+        }
+
     }
 }

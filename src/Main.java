@@ -1,8 +1,10 @@
 import Classes.ComputingProcess;
+import Classes.Process;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -10,8 +12,8 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
-//      Declarações de variáaveis
-
+//      Declarações de variáveis
+        ArrayList<Process> listaDeProcessos = null;
         int escolhaDoUsuario;
         int tipoDeProcessoEscolhido;
         int contadorId = 0;
@@ -43,7 +45,9 @@ public class Main {
 
                     System.out.print("\nDigite o nome do arquivo a ser criado: ");
                     String nomeArquivoCriado = input.nextLine();
-                    file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCriado+".txt");
+                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\"+nomeArquivoCriado+".txt");
+//                    file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCriado+".txt");
+                    listaDeProcessos = new ArrayList<>();
 
                     FileWriter escreverFileCriado = new FileWriter(file,true);
                     escreverFileCriado.close();
@@ -54,7 +58,8 @@ public class Main {
 
                     System.out.print("\nDigite o nome do arquivo a ser carregado: ");
                     String nomeArquivoCarregado = input.nextLine();
-                    file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCarregado+".txt");
+                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\"+nomeArquivoCarregado+".txt");
+//                    file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCarregado+".txt");
 
                     FileWriter escreverFileCarregado = new FileWriter(file,true);
 
@@ -105,6 +110,17 @@ public class Main {
 
                         System.out.print("\nDigite o valor do primeiro operador: ");
                         c1.setFirstOperator(input.nextDouble());
+
+                        System.out.print("\nDigite o valor do segundo operador: ");
+                        c1.setSecondOperator(input.nextDouble());
+
+                        System.out.print("\nDigite o sinal de operação (+,-,*,/)");
+                        String sinalDoOperador = input.nextLine();
+
+                        if(!c1.verificarOperador(sinalDoOperador)){
+                            break;
+                        }
+                        listaDeProcessos.add(c1);
 
                     }
                     // Gravação
