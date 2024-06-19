@@ -1,6 +1,8 @@
 package Classes;
 
-public class Process {
+import java.io.IOException;
+
+public abstract class Process {
     private Integer pid;
 
     public Process(Integer pid) {
@@ -15,10 +17,8 @@ public class Process {
         this.pid = pid;
     }
 
-    public void execute(){
+    public void execute() throws IOException {
 
     }
-
-
 
 }

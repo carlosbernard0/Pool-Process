@@ -44,6 +44,7 @@ public class ComputingProcess extends Process{
         System.out.println("\nO resultado da operação "+firstOperator+" "+operatorSignal+" "+secondOperator+" é: "+ result);
     }
 
+
     public boolean verificarOperador(String sinalDoOperador){
         if(sinalDoOperador.equals("+") || sinalDoOperador.equals("-") ||
                 sinalDoOperador.equals("*") || sinalDoOperador.equals("/"))

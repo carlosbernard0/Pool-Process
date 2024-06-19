@@ -1,26 +1,32 @@
 package Classes;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class WritingProcess extends Process{
 
     private Double firstOperator;
     private Double secondOperator;
     private String operatorSignal;
 
-    public WritingProcess(Integer pid, Double firstOperator, Double secondOperator, String operatorSignal) {
+    public WritingProcess(Integer pid) {
         super(pid);
-        this.firstOperator = firstOperator;
-        this.secondOperator = secondOperator;
-        this.operatorSignal = operatorSignal;
     }
 
     @Override
-    public void execute() {
+    public void execute() throws IOException {
         super.execute();
 
-//        file.write("O resultado da conta 2 * 2 é  resultado")
+//        File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+        File file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\computation.txt");
+
+        FileWriter escreverFileCriado = new FileWriter(file,true);
+
+        escreverFileCriado.write(firstOperator+operatorSignal+secondOperator+"\n");
+        escreverFileCriado.close();
 
     }
-
 
     public Double getFirstOperator() {
         return firstOperator;
@@ -44,5 +50,19 @@ public class WritingProcess extends Process{
 
     public void setOperatorSignal(String operatorSignal) {
         this.operatorSignal = operatorSignal;
+    }
+
+    public boolean verificarOperador(String sinalDoOperador){
+        if(sinalDoOperador.equals("+") || sinalDoOperador.equals("-") ||
+                sinalDoOperador.equals("*") || sinalDoOperador.equals("/"))
+        {
+            this.setOperatorSignal(sinalDoOperador);
+            return true;
+        }else
+        {
+            System.out.println("\nOperador inválido!");
+            return false;
+        }
+
     }
 }

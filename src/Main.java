@@ -1,5 +1,6 @@
 import Classes.ComputingProcess;
 import Classes.Process;
+import Classes.WritingProcess;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +14,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
 //      Declarações de variáveis
-        ArrayList<Process> listaDeProcessos = null;
+        ArrayList<Process> listaDeProcessos = new ArrayList<>();
         int escolhaDoUsuario;
         int tipoDeProcessoEscolhido;
         int contadorId = 0;
@@ -43,11 +44,8 @@ public class Main {
                     System.exit(400);
                 case 1:
 
-                    System.out.print("\nDigite o nome do arquivo a ser criado: ");
-                    String nomeArquivoCriado = input.nextLine();
-                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\"+nomeArquivoCriado+".txt");
-//                    file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCriado+".txt");
-                    listaDeProcessos = new ArrayList<>();
+//                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\computation.txt");
 
                     FileWriter escreverFileCriado = new FileWriter(file,true);
                     escreverFileCriado.close();
@@ -56,10 +54,8 @@ public class Main {
 
                 case 2:
 
-                    System.out.print("\nDigite o nome do arquivo a ser carregado: ");
-                    String nomeArquivoCarregado = input.nextLine();
-                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\"+nomeArquivoCarregado+".txt");
-//                    file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCarregado+".txt");
+                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+//                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCarregado+".txt");
 
                     FileWriter escreverFileCarregado = new FileWriter(file,true);
 
@@ -91,6 +87,7 @@ public class Main {
                 case 1:
 
                     System.out.println("""
+                    
                     Tipos de Processos:
                     
                     (1) - Cálculo.
@@ -104,7 +101,8 @@ public class Main {
                     tipoDeProcessoEscolhido = input.nextInt();
                     input.nextLine();
 
-                    // Cálculo
+                    //region Processo de Cálculo (ComputingProcess)
+
                     if(tipoDeProcessoEscolhido==1){
                         ComputingProcess c1 = new ComputingProcess(contadorId++);
 
@@ -120,15 +118,49 @@ public class Main {
                         if(!c1.verificarOperador(sinalDoOperador)){
                             break;
                         }
+                        assert listaDeProcessos != null;
                         listaDeProcessos.add(c1);
 
                     }
-                    // Gravação
-                    if(tipoDeProcessoEscolhido==2){}
-                    // Leitura
+                    //endregion
+
+                    //region Processo de Gravação (WritingProcess)
+
+                    if(tipoDeProcessoEscolhido==2){
+
+                        WritingProcess w1 = new WritingProcess(contadorId++);
+
+                        System.out.print("\nDigite o valor do primeiro operador: ");
+                        w1.setFirstOperator(input.nextDouble());
+
+                        System.out.print("\nDigite o valor do segundo operador: ");
+                        w1.setSecondOperator(input.nextDouble());
+                        input.nextLine();
+
+                        System.out.print("\nDigite o sinal de operação (+,-,*,/)");
+                        String sinalDoOperador = input.nextLine();
+
+                        if(!w1.verificarOperador(sinalDoOperador)){
+                            break;
+                        }
+
+                        assert listaDeProcessos != null;
+
+                        listaDeProcessos.add(w1);
+
+                        w1.execute();
+
+                    }
+
+                    //endregion
+
+                    //region Processo de Leitura (ReadingProcess)
                     if(tipoDeProcessoEscolhido==3){}
-                    // Impressão
+                    //endregion
+
+                    //region Processo de Impressão (PrintingProcess)
                     if(tipoDeProcessoEscolhido==4){}
+                    //endregion
             }
 
 
