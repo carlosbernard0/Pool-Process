@@ -1,0 +1,90 @@
+Index: src/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import Classes.ComputingProcess;\r\nimport Classes.Process;\r\n\r\nimport java.io.File;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) throws IOException {\r\n\r\n        Scanner input = new Scanner(System.in);\r\n\r\n//      Declarações de variáveis\r\n        ArrayList<Process> listaDeProcessos = null;\r\n        int escolhaDoUsuario;\r\n        int tipoDeProcessoEscolhido;\r\n        int contadorId = 0;\r\n\r\n        File file;\r\n\r\n//      Execução do código\r\n        System.out.println(\"Sistema de Processos...\\n\");\r\n\r\n\r\n            System.out.println(\"\"\"\r\n                    Escolha uma opção:\r\n                    \r\n                    (1) - Criar arquivo de processos.\r\n                    (2) - Carregar arquivo de processos.\r\n                    (0) - Parar execução.\r\n                    \r\n                    \"\"\");\r\n\r\n            System.out.print(\"Digite a opção desejada: \");\r\n            escolhaDoUsuario = input.nextInt();\r\n            input.nextLine();\r\n\r\n            switch (escolhaDoUsuario){\r\n\r\n                case 0:\r\n                    System.exit(400);\r\n                case 1:\r\n\r\n                    System.out.print(\"\\nDigite o nome do arquivo a ser criado: \");\r\n                    String nomeArquivoCriado = input.nextLine();\r\n                    file = new File(\"C:\\\\Users\\\\Admin\\\\IdeaProjects\\\\Pool-Process\\\\src\\\\\"+nomeArquivoCriado+\".txt\");\r\n//                    file = new File(\"C:\\\\Users\\\\GuilhermeCosta3\\\\Desktop\\\\Trabalho\\\\\"+nomeArquivoCriado+\".txt\");\r\n                    listaDeProcessos = new ArrayList<>();\r\n\r\n                    FileWriter escreverFileCriado = new FileWriter(file,true);\r\n                    escreverFileCriado.close();\r\n\r\n                    break;\r\n\r\n                case 2:\r\n\r\n                    System.out.print(\"\\nDigite o nome do arquivo a ser carregado: \");\r\n                    String nomeArquivoCarregado = input.nextLine();\r\n                    file = new File(\"C:\\\\Users\\\\Admin\\\\IdeaProjects\\\\Pool-Process\\\\src\\\\\"+nomeArquivoCarregado+\".txt\");\r\n//                    file = new File(\"C:\\\\Users\\\\GuilhermeCosta3\\\\Desktop\\\\Trabalho\\\\\"+nomeArquivoCarregado+\".txt\");\r\n\r\n                    FileWriter escreverFileCarregado = new FileWriter(file,true);\r\n\r\n                    break;\r\n            }\r\n\r\n\r\n\r\n        do {\r\n\r\n            System.out.println(\"\"\"\r\n                    Escolha uma opção:\r\n                    \r\n                    (1) - Criar novo processo.\r\n                    (2) - Executar próximo processo.\r\n                    (3) - Executar processo por Id (pId).\r\n                    (0) - Parar execução.\r\n                    \r\n                    \"\"\");\r\n\r\n            System.out.print(\"Digite a opção desejada: \");\r\n            escolhaDoUsuario = input.nextInt();\r\n            input.nextLine();\r\n\r\n            switch (escolhaDoUsuario){\r\n\r\n                case 0:\r\n                    System.exit(400);\r\n                case 1:\r\n\r\n                    System.out.println(\"\"\"\r\n                    Tipos de Processos:\r\n                    \r\n                    (1) - Cálculo.\r\n                    (2) - Gravação.\r\n                    (3) - Leitura.\r\n                    (4) - Impressão.\r\n                    \r\n                    \"\"\");\r\n\r\n                    System.out.print(\"Digite o tipo de processo escolhido: \");\r\n                    tipoDeProcessoEscolhido = input.nextInt();\r\n                    input.nextLine();\r\n\r\n                    // Cálculo\r\n                    if(tipoDeProcessoEscolhido==1){\r\n                        ComputingProcess c1 = new ComputingProcess(contadorId++);\r\n\r\n                        System.out.print(\"\\nDigite o valor do primeiro operador: \");\r\n                        c1.setFirstOperator(input.nextDouble());\r\n\r\n                        System.out.print(\"\\nDigite o valor do segundo operador: \");\r\n                        c1.setSecondOperator(input.nextDouble());\r\n\r\n                        System.out.print(\"\\nDigite o sinal de operação (+,-,*,/)\");\r\n                        String sinalDoOperador = input.nextLine();\r\n\r\n                        if(!c1.verificarOperador(sinalDoOperador)){\r\n                            break;\r\n                        }\r\n                        listaDeProcessos.add(c1);\r\n\r\n                    }\r\n                    // Gravação\r\n                    if(tipoDeProcessoEscolhido==2){}\r\n                    // Leitura\r\n                    if(tipoDeProcessoEscolhido==3){}\r\n                    // Impressão\r\n                    if(tipoDeProcessoEscolhido==4){}\r\n            }\r\n\r\n\r\n\r\n        }while(true);\r\n\r\n\r\n\r\n\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Main.java b/src/Main.java
+--- a/src/Main.java	(revision 0405b2e5087ac974fd9fab124683537cc644c660)
++++ b/src/Main.java	(date 1719357750669)
+@@ -1,5 +1,6 @@
+ import Classes.ComputingProcess;
+ import Classes.Process;
++import Classes.WritingProcess;
+ 
+ import java.io.File;
+ import java.io.FileWriter;
+@@ -40,7 +41,7 @@
+             switch (escolhaDoUsuario){
+ 
+                 case 0:
+-                    System.exit(400);
++                    System.exit(0);
+                 case 1:
+ 
+                     System.out.print("\nDigite o nome do arquivo a ser criado: ");
+@@ -113,6 +114,7 @@
+ 
+                         System.out.print("\nDigite o valor do segundo operador: ");
+                         c1.setSecondOperator(input.nextDouble());
++                        input.nextLine();
+ 
+                         System.out.print("\nDigite o sinal de operação (+,-,*,/)");
+                         String sinalDoOperador = input.nextLine();
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"33139762-d1e6-44e1-9e33-d690f6d80f73\" name=\"Changes\" comment=\"initial commit\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Classes/ComputingProcess.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Classes/ComputingProcess.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Main.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2hkmN5XsPhPzIluvYhwnr45N2N3\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"jdk-17.0.10-graalvm-jdk-17.0.10-4caba194b151-6d8b2ca1\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"33139762-d1e6-44e1-9e33-d690f6d80f73\" name=\"Changes\" comment=\"\" />\r\n      <created>1718146420072</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1718146420072</updated>\r\n      <workItem from=\"1718146421568\" duration=\"1301000\" />\r\n      <workItem from=\"1718150599756\" duration=\"3459000\" />\r\n      <workItem from=\"1718544910328\" duration=\"237000\" />\r\n      <workItem from=\"1718747263365\" duration=\"4252000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"initial commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1718545045286</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1718545045286</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"initial commit\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"initial commit\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 0405b2e5087ac974fd9fab124683537cc644c660)
++++ b/.idea/workspace.xml	(date 1719357644489)
+@@ -4,9 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="33139762-d1e6-44e1-9e33-d690f6d80f73" name="Changes" comment="initial commit">
++    <list default="true" id="33139762-d1e6-44e1-9e33-d690f6d80f73" name="Changes" comment="initial commit 2">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Classes/ComputingProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Classes/ComputingProcess.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -51,10 +50,25 @@
+     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+ }</component>
++  <component name="RunManager">
++    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="Main" />
++      <module name="Pool-Process" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <recent_temporary>
++      <list>
++        <item itemvalue="Application.Main" />
++      </list>
++    </recent_temporary>
++  </component>
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="jdk-17.0.10-graalvm-jdk-17.0.10-4caba194b151-6d8b2ca1" />
++        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
++        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+       </set>
+     </attachedChunks>
+   </component>
+@@ -70,6 +84,7 @@
+       <workItem from="1718150599756" duration="3459000" />
+       <workItem from="1718544910328" duration="237000" />
+       <workItem from="1718747263365" duration="4252000" />
++      <workItem from="1719353285594" duration="4267000" />
+     </task>
+     <task id="LOCAL-00001" summary="initial commit">
+       <option name="closed" value="true" />

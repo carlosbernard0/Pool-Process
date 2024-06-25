@@ -65,4 +65,13 @@ public class WritingProcess extends Process{
         }
 
     }
+
+    @Override
+    public String toString() {
+        return "WritingProcess{" +
+                "firstOperator=" + firstOperator +
+                ", secondOperator=" + secondOperator +
+                ", operatorSignal='" + operatorSignal + '\'' +
+                '}';
+    }
 }

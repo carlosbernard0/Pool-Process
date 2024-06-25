@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    static File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+
+    public Main() throws IOException {
+    }
+
+
     public static void main(String[] args) throws IOException {
 
         Scanner input = new Scanner(System.in);
@@ -19,7 +25,7 @@ public class Main {
         int tipoDeProcessoEscolhido;
         int contadorId = 0;
 
-        File file;
+
 
 //      Execução do código
         System.out.println("Sistema de Processos...\n");
@@ -45,19 +51,19 @@ public class Main {
                 case 1:
 
 //                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
-                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\computation.txt");
+//                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\computation.txt");
 
-                    FileWriter escreverFileCriado = new FileWriter(file,true);
-                    escreverFileCriado.close();
+//                    FileWriter escreverFileCriado = new FileWriter(file,true);
+//                    escreverFileCriado.close();
 
                     break;
 
                 case 2:
 
-                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+//                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
 //                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCarregado+".txt");
 
-                    FileWriter escreverFileCarregado = new FileWriter(file,true);
+//                    FileWriter escreverFileCarregado = new FileWriter(file,true);
 
                     break;
             }
@@ -83,7 +89,7 @@ public class Main {
             switch (escolhaDoUsuario){
 
                 case 0:
-                    System.exit(400);
+                    System.exit(0);
                 case 1:
 
                     System.out.println("""
@@ -111,15 +117,22 @@ public class Main {
 
                         System.out.print("\nDigite o valor do segundo operador: ");
                         c1.setSecondOperator(input.nextDouble());
+                        input.nextLine();
 
-                        System.out.print("\nDigite o sinal de operação (+,-,*,/)");
+                        System.out.print("\nDigite o sinal de operação (+,-,*,/): ");
                         String sinalDoOperador = input.nextLine();
 
                         if(!c1.verificarOperador(sinalDoOperador)){
                             break;
                         }
-                        assert listaDeProcessos != null;
+
+                        System.out.println("Processo de cálculo guardado com sucesso! seu pId é "+contadorId+".");
+
                         listaDeProcessos.add(c1);
+
+                        FileWriter escreverFileCriado = new FileWriter(file,true);
+                        retornarProcessos(listaDeProcessos, escreverFileCriado);
+                        escreverFileCriado.close();
 
                     }
                     //endregion
@@ -143,10 +156,12 @@ public class Main {
                         if(!w1.verificarOperador(sinalDoOperador)){
                             break;
                         }
+                        System.out.println("Processo de gravação guardado com sucesso! seu pId é "+contadorId+".");
 
-                        assert listaDeProcessos != null;
 
                         listaDeProcessos.add(w1);
+
+
 
                         w1.execute();
 
@@ -170,6 +185,13 @@ public class Main {
 
 
 
+    }
+
+    public static void retornarProcessos(ArrayList<Process> listaDeProcessos, FileWriter escreverFileCriado) throws IOException {
+
+        for (int i = 0; i < listaDeProcessos.size(); i++) {
+            escreverFileCriado.write(listaDeProcessos.get(i).toString());
+        }
     }
 }
 
