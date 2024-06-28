@@ -16,7 +16,7 @@ public class PrintingProcess extends Process{
     public void execute() throws IOException {
 
         for (Process processo : poolDeProcessos){
-            System.out.println(processo.toString()A);
+            System.out.println(processo.toString());
         }
 
     }
