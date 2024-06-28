@@ -18,8 +18,8 @@ public class WritingProcess extends Process{
     public void execute() throws IOException {
         super.execute();
 
-//        File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
-        File file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\computation.txt");
+//
+        File file = new File("..\\Pool-Process\\computation.txt");
 
         FileWriter escreverFileCriado = new FileWriter(file,true);
 
@@ -68,6 +68,6 @@ public class WritingProcess extends Process{
 
     @Override
     public String toString() {
-        return getPid() + " WritingProcess " + firstOperator + " " + operatorSignal + " " + secondOperator;
+        return "("+ getPid() + ")" + " WritingProcess " + firstOperator + " " + operatorSignal + " " + secondOperator;
     }
 }

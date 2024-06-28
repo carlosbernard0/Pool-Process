@@ -61,6 +61,6 @@ public class ComputingProcess extends Process{
 
     @Override
     public String toString() {
-        return this.firstOperator + " " + operatorSignal+ " "+this.secondOperator+"\n";
+        return "("+ getPid() + ")" + " ComputingProcess " + firstOperator + " " + operatorSignal + " " + secondOperator;
     }
 }

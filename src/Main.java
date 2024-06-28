@@ -1,6 +1,5 @@
-import  Classes.ComputingProcess;
+import Classes.*;
 import Classes.Process;
-import Classes.WritingProcess;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    static File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+//    static File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+    static File file = new File("..\\Pool-Process\\src\\computation.txt");
 
     public Main() throws IOException {
     }
@@ -25,7 +25,7 @@ public class Main {
         int contadorId = 0;
         ArrayList<Process> listaDeProcessos = new ArrayList<>();
 
-
+        System.out.println(file.getPath());
 
 //      Execução do código
         System.out.println("Sistema de Processos...\n");
@@ -35,7 +35,7 @@ public class Main {
         do {
 
             System.out.println("""
-                    Escolha uma opção:
+                    \nEscolha uma opção:
                     
                     (1) - Criar novo processo.
                     (2) - Executar próximo processo.
@@ -78,19 +78,20 @@ public class Main {
 
                         System.out.print("\nDigite o valor do primeiro operador: ");
                         c1.setFirstOperator(input.nextDouble());
-
-                        System.out.print("\nDigite o valor do segundo operador: ");
-                        c1.setSecondOperator(input.nextDouble());
                         input.nextLine();
 
                         System.out.print("\nDigite o sinal de operação (+,-,*,/): ");
                         String sinalDoOperador = input.nextLine();
 
+                        System.out.print("\nDigite o valor do segundo operador: ");
+                        c1.setSecondOperator(input.nextDouble());
+                        input.nextLine();
+
                         if(!c1.verificarOperador(sinalDoOperador)){
                             break;
                         }
 
-                        System.out.println("Processo de cálculo guardado com sucesso! seu pId é "+contadorId+".");
+                        System.out.println("\nProcesso de cálculo guardado com sucesso! seu pId é "+contadorId+".");
 
                         listaDeProcessos.add(c1);
 
@@ -109,37 +110,51 @@ public class Main {
 
                         System.out.print("\nDigite o valor do primeiro operador: ");
                         w1.setFirstOperator(input.nextDouble());
-
-                        System.out.print("\nDigite o valor do segundo operador: ");
-                        w1.setSecondOperator(input.nextDouble());
                         input.nextLine();
 
                         System.out.print("\nDigite o sinal de operação (+,-,*,/)");
                         String sinalDoOperador = input.nextLine();
 
+                        System.out.print("\nDigite o valor do segundo operador: ");
+                        w1.setSecondOperator(input.nextDouble());
+                        input.nextLine();
+
                         if(!w1.verificarOperador(sinalDoOperador)){
                             break;
                         }
-                        System.out.println("Processo de gravação guardado com sucesso! seu pId é "+contadorId+".");
+
+                        System.out.println("\nProcesso de gravação guardado com sucesso! seu pId é "+contadorId+".");
 
 
                         listaDeProcessos.add(w1);
-
-
-
-                        w1.execute();
 
                     }
 
                     //endregion
 
                     //region Processo de Leitura (ReadingProcess)
-                    if(tipoDeProcessoEscolhido==3){}
+                    if(tipoDeProcessoEscolhido==3){
+                        ReadingProcess r1 = new ReadingProcess(contadorId++,listaDeProcessos);
+                        // Criando o método e passando a lista
+
+                        System.out.println("\nProcesso de leitura guardada com sucesso! seu pId é "+contadorId+".");
+
+
+                        listaDeProcessos.add(r1);
+                    }
                     //endregion
 
                     //region Processo de Impressão (PrintingProcess)
-                    if(tipoDeProcessoEscolhido==4){}
+                    if(tipoDeProcessoEscolhido==4){
+                        PrintingProcess p1 = new PrintingProcess(contadorId++, listaDeProcessos);
+                        System.out.println("\nProcesso de impressão guardada com sucesso! seu pId é "+contadorId+".");
+
+                        p1.execute(); //testes
+
+                        listaDeProcessos.add(p1);
+                    }
                     //endregion
+
                     break;
                 case 2:
                     break;
@@ -151,21 +166,23 @@ public class Main {
                     FileWriter escrever = new FileWriter(file,true);
 
                     WritingProcess w1 = new WritingProcess(contadorId++);
-
+                    // Não entendi essa parte
                     System.out.print("\nDigite o valor do primeiro operador: ");
                     w1.setFirstOperator(input.nextDouble());
+                    input.nextLine();
+
+
+                    System.out.print("\nDigite o sinal de operação (+,-,*,/)");
+                    String sinalDoOperador = input.nextLine();
 
                     System.out.print("\nDigite o valor do segundo operador: ");
                     w1.setSecondOperator(input.nextDouble());
                     input.nextLine();
 
-                    System.out.print("\nDigite o sinal de operação (+,-,*,/)");
-                    String sinalDoOperador = input.nextLine();
-
                     if(!w1.verificarOperador(sinalDoOperador)){
                         break;
                     }
-                    System.out.println("Processo de gravação guardado com sucesso! seu pId é "+contadorId+".");
+                    System.out.println("\nProcesso de gravação guardado com sucesso! seu pId é "+contadorId+".");
 
                     listaDeProcessos.add(w1);
                     listaDeProcessos.add(w1);
@@ -178,7 +195,7 @@ public class Main {
                     break;
                 case 5:
                     ArrayList<Process> listaCarregamento = new ArrayList<>();
-                    File fileCarregar = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+                    File fileCarregar = new File("..\\Pool-Process\\src\\computation.txt");
 
                     Scanner inputArquivo = new Scanner(fileCarregar);
 
