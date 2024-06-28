@@ -68,5 +68,6 @@ public class WritingProcess extends Process{
 
     @Override
     public String toString() {
-        return getPid() + "WritingProcess" + firstOperator + " " + operatorSignal + " " + secondOperator;
+        return getPid() + " WritingProcess " + firstOperator + " " + operatorSignal + " " + secondOperator;
+    }
 }

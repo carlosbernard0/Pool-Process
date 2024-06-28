@@ -20,53 +20,15 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
 //      Declarações de variáveis
-        ArrayList<Process> listaDeProcessos = new ArrayList<>();
         int escolhaDoUsuario;
         int tipoDeProcessoEscolhido;
         int contadorId = 0;
+        ArrayList<Process> listaDeProcessos = new ArrayList<>();
 
 
 
 //      Execução do código
         System.out.println("Sistema de Processos...\n");
-
-
-            System.out.println("""
-                    Escolha uma opção:
-                    
-                    (1) - Criar arquivo de processos.
-                    (2) - Carregar arquivo de processos.
-                    (0) - Parar execução.
-                    
-                    """);
-
-            System.out.print("Digite a opção desejada: ");
-            escolhaDoUsuario = input.nextInt();
-            input.nextLine();
-
-            switch (escolhaDoUsuario){
-
-                case 0:
-                    System.exit(400);
-                case 1:
-
-//                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
-//                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\computation.txt");
-
-//                    FileWriter escreverFileCriado = new FileWriter(file,true);
-//                    escreverFileCriado.close();
-
-                    break;
-
-                case 2:
-
-//                    file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
-//                  file = new File("C:\\Users\\GuilhermeCosta3\\Desktop\\Trabalho\\"+nomeArquivoCarregado+".txt");
-
-//                    FileWriter escreverFileCarregado = new FileWriter(file,true);
-
-                    break;
-            }
 
 
 
@@ -78,6 +40,8 @@ public class Main {
                     (1) - Criar novo processo.
                     (2) - Executar próximo processo.
                     (3) - Executar processo por Id (pId).
+                    (4) - Criar arquivo de processos.
+                    (5) - Salvar a fila de processos.
                     (0) - Parar execução.
                     
                     """);
@@ -176,7 +140,91 @@ public class Main {
                     //region Processo de Impressão (PrintingProcess)
                     if(tipoDeProcessoEscolhido==4){}
                     //endregion
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+
+                    FileWriter escrever = new FileWriter(file,true);
+
+                    WritingProcess w1 = new WritingProcess(contadorId++);
+
+                    System.out.print("\nDigite o valor do primeiro operador: ");
+                    w1.setFirstOperator(input.nextDouble());
+
+                    System.out.print("\nDigite o valor do segundo operador: ");
+                    w1.setSecondOperator(input.nextDouble());
+                    input.nextLine();
+
+                    System.out.print("\nDigite o sinal de operação (+,-,*,/)");
+                    String sinalDoOperador = input.nextLine();
+
+                    if(!w1.verificarOperador(sinalDoOperador)){
+                        break;
+                    }
+                    System.out.println("Processo de gravação guardado com sucesso! seu pId é "+contadorId+".");
+
+                    listaDeProcessos.add(w1);
+                    listaDeProcessos.add(w1);
+
+                    for (int i = 0; i < listaDeProcessos.size(); i++) {
+                        escrever.write(listaDeProcessos.get(i).toString()+"\n");
+                    }
+
+                    escrever.close();
+                    break;
+                case 5:
+                    ArrayList<Process> listaCarregamento = new ArrayList<>();
+                    File fileCarregar = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+
+                    Scanner inputArquivo = new Scanner(fileCarregar);
+
+                    while (inputArquivo.hasNextLine()){
+                        String linha = inputArquivo.nextLine();
+                        String[] colunas = linha.split(" ");
+
+                        //criacao do objeto conforme o nome
+                        if (colunas[1].equals("ComputingProcess")){
+                           ComputingProcess process = new ComputingProcess(Integer.parseInt(colunas[0]));
+
+                            process.setFirstOperator(Double.parseDouble(colunas[2]));
+                            process.setOperatorSignal(colunas[3]);
+                            process.setSecondOperator(Double.parseDouble(colunas[4]));
+                            listaCarregamento.add(process);
+
+                        } else if (colunas[1].equals("WritingProcess")) {
+                            WritingProcess process = new WritingProcess(Integer.parseInt(colunas[0]));
+
+                            process.setFirstOperator(Double.parseDouble(colunas[2]));
+                            process.setOperatorSignal(colunas[3]);
+                            process.setSecondOperator(Double.parseDouble(colunas[4]));
+                            listaCarregamento.add(process);
+
+                        }else if (colunas[1].equals("ReadingProcess")) {
+
+                        }else if (colunas[1].equals("PrintingProcess")) {
+
+                        }
+                    }
+
+                    // removendo todos registros da lista principal (SE TIVER)
+                    for (int i = 0; i < listaDeProcessos.size(); i++) {
+                        listaDeProcessos.remove(listaDeProcessos.get(i));
+                    }
+
+                    // adicionando os registros criados da listaAux para o array principal
+                    listaDeProcessos.addAll(listaCarregamento);
+
+
+                    break;
+
+
             }
+
+
 
 
 
