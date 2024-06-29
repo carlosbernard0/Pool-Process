@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-//    static File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
-    static File file = new File("..\\Pool-Process\\src\\computation.txt");
+//    static File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\listaProcessos.txt");
+    static File file = new File("..\\Pool-Process\\src\\listaProcessos.txt");
 
     public Main() throws IOException {
     }
@@ -40,8 +40,8 @@ public class Main {
                     (1) - Criar novo processo.
                     (2) - Executar próximo processo.
                     (3) - Executar processo por Id (pId).
-                    (4) - Criar arquivo de processos.
-                    (5) - Salvar a fila de processos.
+                    (4) - Salvar a fila de processos.
+                    (5) - Carregar do arquivo a fila de processos.
                     (0) - Parar execução.
                     
                     """);
@@ -95,9 +95,9 @@ public class Main {
 
                         listaDeProcessos.add(c1);
 
-                        FileWriter escreverFileCriado = new FileWriter(file,true);
-                        retornarProcessos(listaDeProcessos, escreverFileCriado);
-                        escreverFileCriado.close();
+//                        FileWriter escreverFileCriado = new FileWriter(file,true);
+//                        retornarProcessos(listaDeProcessos, escreverFileCriado);
+//                        escreverFileCriado.close();
 
                     }
                     //endregion
@@ -134,7 +134,7 @@ public class Main {
 
                     //region Processo de Leitura (ReadingProcess)
                     if(tipoDeProcessoEscolhido==3){
-                        ReadingProcess r1 = new ReadingProcess(contadorId++,listaDeProcessos);
+                        ReadingProcess r1 = new ReadingProcess(contadorId++);
                         // Criando o método e passando a lista
 
                         System.out.println("\nProcesso de leitura guardada com sucesso! seu pId é "+contadorId+".");
@@ -157,45 +157,30 @@ public class Main {
 
                     break;
                 case 2:
+                    Process processoExecute = listaDeProcessos.get(0);
+                    System.out.printf("\nExecutando processo (%d) ...\n",processoExecute.getPid());
+                    processoExecute.execute();
+
+                    listaDeProcessos.remove(0);
+                    contadorId--;
+
                     break;
                 case 3:
                     break;
                 case 4:
-                    File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\computation.txt");
+                    File file = new File("..\\Pool-Process\\src\\listaProcessos.txt");
 
                     FileWriter escrever = new FileWriter(file,true);
 
-                    WritingProcess w1 = new WritingProcess(contadorId++);
-                    // Não entendi essa parte
-                    System.out.print("\nDigite o valor do primeiro operador: ");
-                    w1.setFirstOperator(input.nextDouble());
-                    input.nextLine();
-
-
-                    System.out.print("\nDigite o sinal de operação (+,-,*,/)");
-                    String sinalDoOperador = input.nextLine();
-
-                    System.out.print("\nDigite o valor do segundo operador: ");
-                    w1.setSecondOperator(input.nextDouble());
-                    input.nextLine();
-
-                    if(!w1.verificarOperador(sinalDoOperador)){
-                        break;
-                    }
-                    System.out.println("\nProcesso de gravação guardado com sucesso! seu pId é "+contadorId+".");
-
-                    listaDeProcessos.add(w1);
-                    listaDeProcessos.add(w1);
-
                     for (int i = 0; i < listaDeProcessos.size(); i++) {
-                        escrever.write(listaDeProcessos.get(i).toString()+"\n");
+                            escrever.write(listaDeProcessos.get(i).toString()+"\n");
                     }
 
                     escrever.close();
                     break;
                 case 5:
                     ArrayList<Process> listaCarregamento = new ArrayList<>();
-                    File fileCarregar = new File("..\\Pool-Process\\src\\computation.txt");
+                    File fileCarregar = new File("..\\Pool-Process\\src\\listaProcessos.txt");
 
                     Scanner inputArquivo = new Scanner(fileCarregar);
 
@@ -221,9 +206,14 @@ public class Main {
                             listaCarregamento.add(process);
 
                         }else if (colunas[1].equals("ReadingProcess")) {
+                            ReadingProcess process = new ReadingProcess(Integer.parseInt(colunas[0]));
+
+                            listaCarregamento.add(process);
 
                         }else if (colunas[1].equals("PrintingProcess")) {
+                            PrintingProcess process = new PrintingProcess(Integer.parseInt(colunas[0]));
 
+                            listaCarregamento.add(process);
                         }
                     }
 
@@ -236,8 +226,8 @@ public class Main {
                     listaDeProcessos.addAll(listaCarregamento);
 
 
+                    contadorId = listaCarregamento.size()-1;
                     break;
-
 
             }
 

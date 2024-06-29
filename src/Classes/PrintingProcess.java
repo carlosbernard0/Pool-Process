@@ -12,6 +12,10 @@ public class PrintingProcess extends Process{
         this.poolDeProcessos = poolDeProcessos;
     }
 
+    public PrintingProcess(Integer pid) {
+        super(pid);
+    }
+
     @Override
     public void execute() throws IOException {
 
@@ -23,7 +27,7 @@ public class PrintingProcess extends Process{
 
     @Override
     public String toString() {
-        return "("+ getPid() + ")" + " PrintingProcess ";
+        return getPid() + " PrintingProcess ";
 
     }
 }
