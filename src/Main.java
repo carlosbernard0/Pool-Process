@@ -146,9 +146,6 @@ public class Main {
                     if(tipoDeProcessoEscolhido==4){
                         PrintingProcess p1 = new PrintingProcess(++contadorId, listaDeProcessos);
                         System.out.println("\nProcesso de impressão guardada com sucesso! seu pId é "+contadorId+".");
-
-                        p1.execute(); //testes
-
                         listaDeProcessos.add(p1);
                     }
                     //endregion
