@@ -28,8 +28,8 @@ public class ReadingProcess extends Process {
         while (inputArquivoComputation.hasNextLine()){
             String linha = inputArquivoComputation.nextLine();
             String[] colunas = linha.split(" ");
-            ArrayList<Integer> arrayIds = new ArrayList<>();
 
+            ArrayList<Integer> arrayIds = new ArrayList<>();
             Scanner inputListaProcessos = new Scanner(fileListaProcessos);
             while (inputListaProcessos.hasNextLine()) {
                 String linhaLista = inputListaProcessos.nextLine();
@@ -40,7 +40,7 @@ public class ReadingProcess extends Process {
             int ultimoIdDaLista = arrayIds.size()-1;
             int idDoProcesso = arrayIds.get(ultimoIdDaLista);
 
-            ComputingProcess process = new ComputingProcess(idDoProcesso);
+            ComputingProcess process = new ComputingProcess(++idDoProcesso);
             arrayIds.add(idDoProcesso);    //adicionando na lista para os proximos processos tiverem id diferentes
             process.setFirstOperator(Double.valueOf(colunas[1]));
             process.setOperatorSignal(colunas[2]);

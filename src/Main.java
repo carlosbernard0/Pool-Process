@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -157,68 +158,39 @@ public class Main {
                     Process processoExecute = listaDeProcessos.get(0);
                     System.out.printf("\nExecutando processo (%d) ...\n",processoExecute.getPid());
                     processoExecute.execute();
-                    listaDeProcessos.remove(0);
-                    atualizarArquivoListaProcessos(processoExecute.getPid(),processoExecute,listaDeProcessos);
+                    removerProcessoExecutadoDaLista(processoExecute.getPid(),processoExecute, listaDeProcessos);
 
                     break;
                 case 3:
-                    break;
-                case 4:
-                    FileWriter escrever = new FileWriter(fileListaProcessos,true);
+                    System.out.println("Digite o pId que você deseja executar:");
+                    Integer pidExecute = input.nextInt();
 
                     for (int i = 0; i < listaDeProcessos.size(); i++) {
-                            escrever.write(listaDeProcessos.get(i).toString());
+                        if (Objects.equals(listaDeProcessos.get(i).getPid(), pidExecute)){
+                            listaDeProcessos.get(i).execute();
+                            removerProcessoExecutadoDaLista(pidExecute,listaDeProcessos.get(i),listaDeProcessos);
+                        }
                     }
-                    contadorId = listaDeProcessos.size()-1;
+                    break;
+                case 4:
+
+                    Scanner inputArquivoAtual = new Scanner(fileListaProcessos);
+                    FileWriter escrever = new FileWriter(fileListaProcessos,false);
+
+                    int ultimoIdDaListaSalvar = listaDeProcessos.size()-1;
+                    contadorId = listaDeProcessos.get(ultimoIdDaListaSalvar).getPid();
+
+                    for (int i = 0; i < listaDeProcessos.size(); i++) {
+                        escrever.write(listaDeProcessos.get(i).toString());
+                    }
                     escrever.close();
                     break;
                 case 5:
-                    ArrayList<Process> listaCarregamento = new ArrayList<>();
-                    Scanner inputArquivo = new Scanner(fileListaProcessos);
+                    listaDeProcessos = carregarListaDeProcessos();
 
-                    while (inputArquivo.hasNextLine()){
-                        String linha = inputArquivo.nextLine();
-                        String[] colunas = linha.split(" ");
+                    int ultimoIdDaLista = listaDeProcessos.size()-1;
+                    contadorId = listaDeProcessos.get(ultimoIdDaLista).getPid();
 
-                        //criacao do objeto conforme o nome
-                        if (colunas[1].equals("ComputingProcess")){
-                           ComputingProcess process = new ComputingProcess(Integer.parseInt(colunas[0]));
-
-                            process.setFirstOperator(Double.parseDouble(colunas[2]));
-                            process.setOperatorSignal(colunas[3]);
-                            process.setSecondOperator(Double.parseDouble(colunas[4]));
-                            listaCarregamento.add(process);
-
-                        } else if (colunas[1].equals("WritingProcess")) {
-                            WritingProcess process = new WritingProcess(Integer.parseInt(colunas[0]));
-
-                            process.setFirstOperator(Double.parseDouble(colunas[2]));
-                            process.setOperatorSignal(colunas[3]);
-                            process.setSecondOperator(Double.parseDouble(colunas[4]));
-                            listaCarregamento.add(process);
-
-                        }else if (colunas[1].equals("ReadingProcess")) {
-                            ReadingProcess process = new ReadingProcess(Integer.parseInt(colunas[0]));
-
-                            listaCarregamento.add(process);
-
-                        }else if (colunas[1].equals("PrintingProcess")) {
-                            PrintingProcess process = new PrintingProcess(Integer.parseInt(colunas[0]));
-
-                            listaCarregamento.add(process);
-                        }
-                    }
-
-                    // removendo todos registros da lista principal (SE TIVER)
-                    for (int i = 0; i < listaDeProcessos.size(); i++) {
-                        listaDeProcessos.remove(listaDeProcessos.get(i));
-                    }
-
-                    // adicionando os registros criados da listaAux para o array principal
-                    listaDeProcessos.addAll(listaCarregamento);
-
-
-                    contadorId = listaCarregamento.size()-1;
                     break;
 
             }
@@ -242,7 +214,7 @@ public class Main {
     }
 
     // vai excluir o processo que foi executado e assim atualizando o arquivo
-    public static void atualizarArquivoListaProcessos (Integer idDoProcesso,Process processRemove,ArrayList<Process> listaAtual) throws IOException {
+    public static void removerProcessoExecutadoDaLista (Integer idDoProcesso,Process processRemove,ArrayList<Process> listaAtual) throws IOException {
         Scanner inputArquivo = new Scanner(fileListaProcessos);
 
         //encontrar o arquivo que esta sendo executado e remover da listaAtual
@@ -250,20 +222,74 @@ public class Main {
             String linha = inputArquivo.nextLine();
             String[] colunas = linha.split(" ");
             Integer idProcess = Integer.parseInt(colunas[0]);
-            if (idProcess.equals(idDoProcesso)){
-                listaAtual.remove(processRemove);
+            if (Objects.equals(colunas[1], "ReadingProcess") && idProcess.equals(idDoProcesso)){
+                listaAtual = carregarListaDeProcessos();
+                listaAtual.remove(listaAtual.get(idProcess));
+                FileWriter escreverArquivoAtualizado = new FileWriter(fileListaProcessos,false);
+                for (int i = 0; i < listaAtual.size(); i++) {
+                    escreverArquivoAtualizado.write(listaAtual.get(i).toString());
+                }
+                escreverArquivoAtualizado.close();
+
+            }else{
+                if (idProcess.equals(idDoProcesso)){
+                    listaAtual.remove(processRemove);
+                    //salvar o arquivo da lista nova
+                    FileWriter escreverArquivoAtualizado = new FileWriter(fileListaProcessos,false);
+                    for (int i = 0; i < listaAtual.size(); i++) {
+                        escreverArquivoAtualizado.write(listaAtual.get(i).toString());
+                    }
+                    escreverArquivoAtualizado.close();
+
+                }
             }
         }
 
-        //salvar o arquivo da lista nova
-        FileWriter escreverArquivoAtualizado = new FileWriter(fileListaProcessos,false);
-        for (int i = 0; i < listaAtual.size(); i++) {
-            escreverArquivoAtualizado.write(listaAtual.get(i).toString());
+
+
+
+
+    }
+
+    public static ArrayList<Process> carregarListaDeProcessos() throws FileNotFoundException {
+        fileListaProcessos = new File("..\\Pool-Process\\src\\listaProcessos.txt");
+        ArrayList<Process> listaCarregamento = new ArrayList<>();
+        Scanner inputArquivo = new Scanner(fileListaProcessos);
+
+        while (inputArquivo.hasNextLine()) {
+            String linha = inputArquivo.nextLine();
+            String[] colunas = linha.split(" ");
+
+            //criacao do objeto conforme o nome
+            if (colunas[1].equals("ComputingProcess")) {
+                ComputingProcess process = new ComputingProcess(Integer.parseInt(colunas[0]));
+
+                process.setFirstOperator(Double.parseDouble(colunas[2]));
+                process.setOperatorSignal(colunas[3]);
+                process.setSecondOperator(Double.parseDouble(colunas[4]));
+                listaCarregamento.add(process);
+
+            } else if (colunas[1].equals("WritingProcess")) {
+                WritingProcess process = new WritingProcess(Integer.parseInt(colunas[0]));
+
+                process.setFirstOperator(Double.parseDouble(colunas[2]));
+                process.setOperatorSignal(colunas[3]);
+                process.setSecondOperator(Double.parseDouble(colunas[4]));
+                listaCarregamento.add(process);
+
+            } else if (colunas[1].equals("ReadingProcess")) {
+                ReadingProcess process = new ReadingProcess(Integer.parseInt(colunas[0]));
+
+                listaCarregamento.add(process);
+
+            } else if (colunas[1].equals("PrintingProcess")) {
+                PrintingProcess process = new PrintingProcess(Integer.parseInt(colunas[0]));
+
+                listaCarregamento.add(process);
+            }
         }
-        escreverArquivoAtualizado.close();
 
-
-
+        return listaCarregamento;
     }
 
 }
