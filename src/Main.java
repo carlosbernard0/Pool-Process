@@ -2,14 +2,14 @@ import Classes.*;
 import Classes.Process;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-//    static File file = new File("C:\\Users\\Admin\\IdeaProjects\\Pool-Process\\src\\listaProcessos.txt");
-    static File file = new File("..\\Pool-Process\\src\\listaProcessos.txt");
+    static File fileListaProcessos = new File("..\\Pool-Process\\src\\listaProcessos.txt");
 
     public Main() throws IOException {
     }
@@ -19,13 +19,14 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
+
 //      Declarações de variáveis
         int escolhaDoUsuario;
         int tipoDeProcessoEscolhido;
         int contadorId = 0;
         ArrayList<Process> listaDeProcessos = new ArrayList<>();
 
-        System.out.println(file.getPath());
+        System.out.println(fileListaProcessos.getPath());
 
 //      Execução do código
         System.out.println("Sistema de Processos...\n");
@@ -74,7 +75,7 @@ public class Main {
                     //region Processo de Cálculo (ComputingProcess)
 
                     if(tipoDeProcessoEscolhido==1){
-                        ComputingProcess c1 = new ComputingProcess(contadorId++);
+                        ComputingProcess c1 = new ComputingProcess(++contadorId);
 
                         System.out.print("\nDigite o valor do primeiro operador: ");
                         c1.setFirstOperator(input.nextDouble());
@@ -95,10 +96,6 @@ public class Main {
 
                         listaDeProcessos.add(c1);
 
-//                        FileWriter escreverFileCriado = new FileWriter(file,true);
-//                        retornarProcessos(listaDeProcessos, escreverFileCriado);
-//                        escreverFileCriado.close();
-
                     }
                     //endregion
 
@@ -106,7 +103,7 @@ public class Main {
 
                     if(tipoDeProcessoEscolhido==2){
 
-                        WritingProcess w1 = new WritingProcess(contadorId++);
+                        WritingProcess w1 = new WritingProcess(++contadorId);
 
                         System.out.print("\nDigite o valor do primeiro operador: ");
                         w1.setFirstOperator(input.nextDouble());
@@ -134,7 +131,7 @@ public class Main {
 
                     //region Processo de Leitura (ReadingProcess)
                     if(tipoDeProcessoEscolhido==3){
-                        ReadingProcess r1 = new ReadingProcess(contadorId++);
+                        ReadingProcess r1 = new ReadingProcess(++contadorId);
                         // Criando o método e passando a lista
 
                         System.out.println("\nProcesso de leitura guardada com sucesso! seu pId é "+contadorId+".");
@@ -146,7 +143,7 @@ public class Main {
 
                     //region Processo de Impressão (PrintingProcess)
                     if(tipoDeProcessoEscolhido==4){
-                        PrintingProcess p1 = new PrintingProcess(contadorId++, listaDeProcessos);
+                        PrintingProcess p1 = new PrintingProcess(++contadorId, listaDeProcessos);
                         System.out.println("\nProcesso de impressão guardada com sucesso! seu pId é "+contadorId+".");
 
                         p1.execute(); //testes
@@ -160,29 +157,24 @@ public class Main {
                     Process processoExecute = listaDeProcessos.get(0);
                     System.out.printf("\nExecutando processo (%d) ...\n",processoExecute.getPid());
                     processoExecute.execute();
-
                     listaDeProcessos.remove(0);
-                    contadorId--;
+                    atualizarArquivoListaProcessos(processoExecute.getPid(),processoExecute,listaDeProcessos);
 
                     break;
                 case 3:
                     break;
                 case 4:
-                    File file = new File("..\\Pool-Process\\src\\listaProcessos.txt");
-
-                    FileWriter escrever = new FileWriter(file,true);
+                    FileWriter escrever = new FileWriter(fileListaProcessos,true);
 
                     for (int i = 0; i < listaDeProcessos.size(); i++) {
-                            escrever.write(listaDeProcessos.get(i).toString()+"\n");
+                            escrever.write(listaDeProcessos.get(i).toString());
                     }
-
+                    contadorId = listaDeProcessos.size()-1;
                     escrever.close();
                     break;
                 case 5:
                     ArrayList<Process> listaCarregamento = new ArrayList<>();
-                    File fileCarregar = new File("..\\Pool-Process\\src\\listaProcessos.txt");
-
-                    Scanner inputArquivo = new Scanner(fileCarregar);
+                    Scanner inputArquivo = new Scanner(fileListaProcessos);
 
                     while (inputArquivo.hasNextLine()){
                         String linha = inputArquivo.nextLine();
@@ -248,5 +240,31 @@ public class Main {
             escreverFileCriado.write(listaDeProcessos.get(i).toString());
         }
     }
+
+    // vai excluir o processo que foi executado e assim atualizando o arquivo
+    public static void atualizarArquivoListaProcessos (Integer idDoProcesso,Process processRemove,ArrayList<Process> listaAtual) throws IOException {
+        Scanner inputArquivo = new Scanner(fileListaProcessos);
+
+        //encontrar o arquivo que esta sendo executado e remover da listaAtual
+        while (inputArquivo.hasNextLine()){
+            String linha = inputArquivo.nextLine();
+            String[] colunas = linha.split(" ");
+            Integer idProcess = Integer.parseInt(colunas[0]);
+            if (idProcess.equals(idDoProcesso)){
+                listaAtual.remove(processRemove);
+            }
+        }
+
+        //salvar o arquivo da lista nova
+        FileWriter escreverArquivoAtualizado = new FileWriter(fileListaProcessos,false);
+        for (int i = 0; i < listaAtual.size(); i++) {
+            escreverArquivoAtualizado.write(listaAtual.get(i).toString());
+        }
+        escreverArquivoAtualizado.close();
+
+
+
+    }
+
 }
 

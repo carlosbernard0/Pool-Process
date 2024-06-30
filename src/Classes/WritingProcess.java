@@ -21,7 +21,7 @@ public class WritingProcess extends Process{
 
         FileWriter escreverFileCriado = new FileWriter(file,true);
 
-        escreverFileCriado.write(firstOperator+" "+operatorSignal+" "+secondOperator+"\n");
+        escreverFileCriado.write(getPid()+" "+firstOperator+" "+operatorSignal+" "+secondOperator+"\n");
         escreverFileCriado.close();
 
     }
@@ -66,6 +66,6 @@ public class WritingProcess extends Process{
 
     @Override
     public String toString() {
-        return getPid() + " WritingProcess " + firstOperator + " " + operatorSignal + " " + secondOperator;
+        return getPid() + " WritingProcess " + firstOperator + " " + operatorSignal + " " + secondOperator+"\n";
     }
 }

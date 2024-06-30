@@ -27,7 +27,7 @@ public class PrintingProcess extends Process{
 
     @Override
     public String toString() {
-        return getPid() + " PrintingProcess ";
+        return getPid() + " PrintingProcess\n";
 
     }
 }

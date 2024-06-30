@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 public class ReadingProcess extends Process {
 
+    File fileComputation = new File("..\\Pool-Process\\src\\computation.txt");
+    File fileListaProcessos = new File("..\\Pool-Process\\src\\listaProcessos.txt");
+
     public ArrayList<Process> arquivoDeLeitura;
 
     public ReadingProcess(Integer pid) {
@@ -17,48 +20,45 @@ public class ReadingProcess extends Process {
 
     @Override
     public void execute() throws IOException {
-//        for (int i = 0; i < this.arquivoDeLeitura.size(); i++) {
-            //ler cada coluna do array (arquivo) e printar na tela
-        File fileCarregar = new File("..\\Pool-Process\\src\\computation.txt");
+        //ler cada coluna do array (arquivo) e printar na tela
+        Scanner inputArquivoComputation = new Scanner(fileComputation);
+        ArrayList<ComputingProcess> novosProcessos = new ArrayList<>();
 
-        Scanner inputArquivo = new Scanner(fileCarregar);
 
-        while (inputArquivo.hasNextLine()){
-            String linha = inputArquivo.nextLine();
+        while (inputArquivoComputation.hasNextLine()){
+            String linha = inputArquivoComputation.nextLine();
             String[] colunas = linha.split(" ");
+            ArrayList<Integer> arrayIds = new ArrayList<>();
 
-            ArrayList<Double> arrayIds = new ArrayList<>();
-            File fileListaProcessos = new File("..\\Pool-Process\\src\\listaProcessos.txt");
             Scanner inputListaProcessos = new Scanner(fileListaProcessos);
             while (inputListaProcessos.hasNextLine()) {
-                String linhaLista = inputArquivo.nextLine();
+                String linhaLista = inputListaProcessos.nextLine();
                 String[] colunasLista = linhaLista.split(" ");
-                arrayIds.add(Double.valueOf(colunasLista[0]));
+                arrayIds.add(Integer.valueOf(colunasLista[0]));
             }
-            double teste = arrayIds.size();
-            Double idDoProcesso = arrayIds.get(teste);
 
-            ComputingProcess computingProcess = new ComputingProcess(idDoProcesso);
-            computingProcess.setFirstOperator(Double.valueOf(colunas[1]));
-            computingProcess.setOperatorSignal(colunas[2]);
-            computingProcess.setSecondOperator(Double.valueOf(colunas[3]));
+            int ultimoIdDaLista = arrayIds.size()-1;
+            int idDoProcesso = arrayIds.get(ultimoIdDaLista);
 
+            ComputingProcess process = new ComputingProcess(idDoProcesso);
+            arrayIds.add(idDoProcesso);    //adicionando na lista para os proximos processos tiverem id diferentes
+            process.setFirstOperator(Double.valueOf(colunas[1]));
+            process.setOperatorSignal(colunas[2]);
+            process.setSecondOperator(Double.valueOf(colunas[3]));
 
-
-
+            novosProcessos.add(process);
+            FileWriter escreverListaProcessos = new FileWriter(fileListaProcessos, true);
+            escreverListaProcessos.write(process.toString());
+            escreverListaProcessos.close();
         }
 
-        FileWriter arquivoAtualizado = new FileWriter(fileCarregar,false);
-
-        arquivoAtualizado.write(" ");
-        arquivoAtualizado.close();
-
-//        }
-
+        FileWriter escreverComputationAtualizado = new FileWriter(fileComputation,false);
+        escreverComputationAtualizado.write("");
+        escreverComputationAtualizado.close();
     }
 
     @Override
     public String toString() {
-        return getPid() + " ReadingProcess";
+        return getPid() + " ReadingProcess\n";
     }
 }
