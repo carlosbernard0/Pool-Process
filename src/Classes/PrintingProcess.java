@@ -19,8 +19,8 @@ public class PrintingProcess extends Process{
     @Override
     public void execute() throws IOException {
 
-        for (Process processo : poolDeProcessos){
-            System.out.println(processo.toString());
+        for (int i = 0; i < poolDeProcessos.size(); i++) {
+            System.out.println(poolDeProcessos.get(i).toString());
         }
 
     }

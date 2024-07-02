@@ -1,4 +1,0 @@
-1 WritingProcess 6.0 + 6.0
-3 ReadingProcess
-4 WritingProcess 5.0 - 4.0
-5 ComputingProcess 3.0 + 6.0

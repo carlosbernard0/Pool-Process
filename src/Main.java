@@ -34,6 +34,7 @@ public class Main {
 
 
 
+
         do {
 
             System.out.println("""
@@ -156,6 +157,11 @@ public class Main {
                     System.out.printf("\nExecutando processo (%d) ...\n",processoExecute.getPid());
                     processoExecute.execute();
                     removerProcessoExecutadoDaLista(processoExecute.getPid(),processoExecute, listaDeProcessos);
+                    String processString = processoExecute.toString();
+                    String[] processStringColuna= processString.split(" ");
+                    if (Objects.equals(processStringColuna[1], "ReadingProcess\n")){
+                        listaDeProcessos.remove(0);
+                    }
 
                     break;
                 case 3:
@@ -170,8 +176,6 @@ public class Main {
                     }
                     break;
                 case 4:
-
-                    Scanner inputArquivoAtual = new Scanner(fileListaProcessos);
                     FileWriter escrever = new FileWriter(fileListaProcessos,false);
 
                     int ultimoIdDaListaSalvar = listaDeProcessos.size()-1;
@@ -187,9 +191,7 @@ public class Main {
 
                     int ultimoIdDaLista = listaDeProcessos.size()-1;
                     contadorId = listaDeProcessos.get(ultimoIdDaLista).getPid();
-
                     break;
-
             }
 
 
@@ -221,7 +223,7 @@ public class Main {
             Integer idProcess = Integer.parseInt(colunas[0]);
             if (Objects.equals(colunas[1], "ReadingProcess") && idProcess.equals(idDoProcesso)){
                 listaAtual = carregarListaDeProcessos();
-                listaAtual.remove(listaAtual.get(idProcess));
+                listaAtual.remove(listaAtual.get(0));
                 FileWriter escreverArquivoAtualizado = new FileWriter(fileListaProcessos,false);
                 for (int i = 0; i < listaAtual.size(); i++) {
                     escreverArquivoAtualizado.write(listaAtual.get(i).toString());
@@ -280,7 +282,7 @@ public class Main {
                 listaCarregamento.add(process);
 
             } else if (colunas[1].equals("PrintingProcess")) {
-                PrintingProcess process = new PrintingProcess(Integer.parseInt(colunas[0]));
+                PrintingProcess process = new PrintingProcess(Integer.parseInt(colunas[0]),listaCarregamento);
 
                 listaCarregamento.add(process);
             }
